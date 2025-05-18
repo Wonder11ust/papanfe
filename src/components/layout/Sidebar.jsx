@@ -9,9 +9,17 @@ import {
   Users,
   ChevronRight
 } from 'lucide-react';
-import { navItems } from '../../data/dummyData';
 
-const Sidebar = ({ open, onClose }) => {
+const Sidebar = ({ open, onClose, currentPage, setCurrentPage }) => {
+  const navItems = [
+    { id: 'dashboard', name: 'Dashboard', icon: 'LayoutDashboard' },
+    { id: 'produk-rumah', name: 'Produk Rumah', icon: 'Home' },
+    { id: 'tipe-hunian', name: 'Tipe Hunian', icon: 'Building2' },
+    { id: 'jasa-layanan', name: 'Jasa & Layanan', icon: 'HeartHandshake' },
+    { id: 'portfolio', name: 'Portfolio Project', icon: 'FolderKanban' },
+    { id: 'user', name: 'User', icon: 'Users' },
+  ];
+
   const getIcon = (iconName) => {
     switch (iconName) {
       case 'LayoutDashboard':
@@ -31,9 +39,13 @@ const Sidebar = ({ open, onClose }) => {
     }
   };
 
+  const handleNavigation = (pageId) => {
+    setCurrentPage(pageId);
+    onClose();
+  };
+
   return (
     <>
-      {/* Mobile sidebar backdrop */}
       <div 
         className={`fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden transition-opacity duration-200 ${
           open ? 'opacity-100' : 'opacity-0 pointer-events-none'
@@ -41,13 +53,11 @@ const Sidebar = ({ open, onClose }) => {
         onClick={onClose}
       />
 
-      {/* Sidebar */}
       <div 
         className={`fixed top-0 left-0 z-50 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:h-screen ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        {/* Logo */}
         <div className="flex items-center justify-center h-16 border-b">
           <div className="flex items-center">
             <svg width="40" height="40" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -59,27 +69,26 @@ const Sidebar = ({ open, onClose }) => {
           </div>
         </div>
 
-        {/* Navigation */}
         <nav className="mt-6 px-4">
           <ul className="space-y-2">
-            {navItems.map((item, index) => (
-              <li key={index}>
-                <a 
-                  href="#"
-                  className={`flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-emerald-50 transition-colors ${
-                    item.active ? 'bg-emerald-50 text-emerald-600' : ''
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <button 
+                  onClick={() => handleNavigation(item.id)}
+                  className={`w-full flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-emerald-50 transition-colors ${
+                    currentPage === item.id ? 'bg-emerald-50 text-emerald-600' : ''
                   }`}
                 >
-                  <span className={`${item.active ? 'text-emerald-600' : 'text-gray-500'}`}>
+                  <span className={`${currentPage === item.id ? 'text-emerald-600' : 'text-gray-500'}`}>
                     {getIcon(item.icon)}
                   </span>
-                  <span className={`ml-3 ${item.active ? 'font-semibold' : ''}`}>{item.name}</span>
-                  {item.active && (
+                  <span className={`ml-3 ${currentPage === item.id ? 'font-semibold' : ''}`}>{item.name}</span>
+                  {currentPage === item.id && (
                     <span className="ml-auto">
                       <ChevronRight size={16} className="text-emerald-600" />
                     </span>
                   )}
-                </a>
+                </button>
               </li>
             ))}
           </ul>
@@ -91,7 +100,9 @@ const Sidebar = ({ open, onClose }) => {
 
 Sidebar.propTypes = {
   open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  currentPage: PropTypes.string.isRequired,
+  setCurrentPage: PropTypes.func.isRequired
 };
 
 export default Sidebar;

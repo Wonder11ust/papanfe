@@ -3,14 +3,28 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 import { currentUser } from '../../data/dummyData';
 
-const Layout = ({ children, sidebarOpen, setSidebarOpen }) => {
+const Layout = ({ children, sidebarOpen, setSidebarOpen, currentPage, setCurrentPage }) => {
+  const getPageTitle = () => {
+    switch (currentPage) {
+      case 'produk-rumah':
+        return 'Produk Rumah';
+      default:
+        return 'Dashboard';
+    }
+  };
+
   return (
     <div className="flex h-screen bg-gray-50">
-      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <Sidebar 
+        open={sidebarOpen} 
+        onClose={() => setSidebarOpen(false)} 
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
       
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header 
-          title="Dashboard" 
+          title={getPageTitle()} 
           user={currentUser}
           onMenuClick={() => setSidebarOpen(true)} 
         />
@@ -26,7 +40,9 @@ const Layout = ({ children, sidebarOpen, setSidebarOpen }) => {
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
   sidebarOpen: PropTypes.bool.isRequired,
-  setSidebarOpen: PropTypes.func.isRequired
+  setSidebarOpen: PropTypes.func.isRequired,
+  currentPage: PropTypes.string.isRequired,
+  setCurrentPage: PropTypes.func.isRequired
 };
 
 export default Layout;
