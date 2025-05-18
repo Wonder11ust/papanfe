@@ -1,14 +1,31 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { ChevronUp, ChevronDown } from 'lucide-react';
+import { ChevronUp, ChevronDown, ChevronRight, ChevronDown as Expand } from 'lucide-react';
 import StatusBadge from './StatusBadge';
 import { ProductPropType } from '../../types';
 
 const DataTable = ({ data }) => {
   const [sortField, setSortField] = useState(null);
   const [sortDirection, setSortDirection] = useState('asc');
+  const [expandedRows, setExpandedRows] = useState(new Set());
 
   const columns = [
+    {
+      id: 'expand',
+      header: '',
+      accessor: (item) => (
+        <button
+          onClick={() => toggleRow(item.id)}
+          className="p-1 hover:bg-gray-100 rounded"
+        >
+          {expandedRows.has(item.id) ? (
+            <ChevronDown size={16} className="text-gray-500" />
+          ) : (
+            <ChevronRight size={16} className="text-gray-500" />
+          )}
+        </button>
+      ),
+    },
     {
       id: 'id',
       header: 'ID',
@@ -43,6 +60,16 @@ const DataTable = ({ data }) => {
       sortable: true,
     },
   ];
+
+  const toggleRow = (id) => {
+    const newExpandedRows = new Set(expandedRows);
+    if (newExpandedRows.has(id)) {
+      newExpandedRows.delete(id);
+    } else {
+      newExpandedRows.add(id);
+    }
+    setExpandedRows(newExpandedRows);
+  };
 
   const handleSort = (field) => {
     if (sortField === field) {
@@ -119,13 +146,57 @@ const DataTable = ({ data }) => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {sortedData.map((item) => (
-            <tr key={item.id} className="hover:bg-gray-50">
-              {columns.map((column) => (
-                <td key={`${item.id}-${column.id}`} className="px-6 py-4 whitespace-nowrap">
-                  {column.accessor(item)}
-                </td>
-              ))}
-            </tr>
+            <>
+              <tr key={item.id} className="hover:bg-gray-50">
+                {columns.map((column) => (
+                  <td key={`${item.id}-${column.id}`} className="px-6 py-4 whitespace-nowrap">
+                    {column.accessor(item)}
+                  </td>
+                ))}
+              </tr>
+              {expandedRows.has(item.id) && (
+                <tr key={`${item.id}-expanded`}>
+                  <td colSpan={columns.length} className="px-6 py-4 bg-gray-50">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="font-medium text-gray-900 mb-2">Detail Properti</h4>
+                        <div className="space-y-2">
+                          <p className="text-sm text-gray-600">
+                            <span className="font-medium">Alamat:</span> Jl. Diponegoro No. 666
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            <span className="font-medium">Luas Tanah:</span> 302 m²
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            <span className="font-medium">Luas Bangunan:</span> 280 m²
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            <span className="font-medium">Harga:</span> Rp 2.200.000.000
+                          </p>
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-900 mb-2">Fasilitas</h4>
+                        <div className="space-y-2">
+                          <p className="text-sm text-gray-600">
+                            <span className="font-medium">Kamar Tidur:</span> 3
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            <span className="font-medium">Kamar Mandi:</span> 2
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            <span className="font-medium">Garasi:</span> 1 Mobil
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            <span className="font-medium">Listrik:</span> 2200 VA
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </>
           ))}
         </tbody>
       </table>
