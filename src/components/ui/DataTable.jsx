@@ -146,8 +146,8 @@ const DataTable = ({ data }) => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {sortedData.map((item) => (
-            <>
-              <tr key={item.id} className="hover:bg-gray-50">
+            <React.Fragment key={item.id}>
+              <tr key={`${item.id}-row`} className="hover:bg-gray-50">
                 {columns.map((column) => (
                   <td key={`${item.id}-${column.id}`} className="px-6 py-4 whitespace-nowrap">
                     {column.accessor(item)}
@@ -155,7 +155,7 @@ const DataTable = ({ data }) => {
                 ))}
               </tr>
               {expandedRows.has(item.id) && (
-                <tr key={`${item.id}-expanded`}>
+                <tr key={`${item.id}-expanded-row`}>
                   <td colSpan={columns.length} className="px-6 py-4 bg-gray-50">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
@@ -196,7 +196,7 @@ const DataTable = ({ data }) => {
                   </td>
                 </tr>
               )}
-            </>
+            </React.Fragment>
           ))}
         </tbody>
       </table>
