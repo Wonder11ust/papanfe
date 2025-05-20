@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { ChevronUp, ChevronDown, ChevronRight, ChevronDown as Expand } from 'lucide-react';
 import StatusBadge from './StatusBadge';
