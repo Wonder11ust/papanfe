@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { X } from 'lucide-react';
+import { Editor } from '@tinymce/tinymce-react';
 
 const AddServiceModal = ({ isOpen, onClose, onSave }) => {
   const [formData, setFormData] = useState({
@@ -58,12 +59,25 @@ const AddServiceModal = ({ isOpen, onClose, onSave }) => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Deskripsi
                 </label>
-                <textarea
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  rows={4}
-                  placeholder="Masukkan deskripsi jasa"
+                <Editor
+                  apiKey="your-api-key" // You'll need to get this from TinyMCE
+                  init={{
+                    height: 300,
+                    menubar: false,
+                    plugins: [
+                      'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                      'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                      'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                    ],
+                    toolbar: 'undo redo | formatselect | ' +
+                      'bold italic backcolor | alignleft aligncenter ' +
+                      'alignright alignjustify | bullist numlist outdent indent | ' +
+                      'removeformat | help',
+                    content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 14px }'
+                  }}
+                  onEditorChange={(content) => {
+                    setFormData({ ...formData, description: content });
+                  }}
                 />
               </div>
 
