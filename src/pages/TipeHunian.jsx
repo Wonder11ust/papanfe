@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Plus, Pencil, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
-import AddProductModal from '../components/ui/AddProductModal';
-import EditProductModal from '../components/ui/EditProductModal';
-import DeleteProductModal from '../components/ui/DeleteProductModal';
-import { products } from '../data/dummyData';
+import { Plus, Pencil, Trash2, ChevronLeft, ChevronRight, Delete } from 'lucide-react';
+import AddTipeModal from '../components/ui/AddTipeModal';
+import EditTipeModal from '../components/ui/EditTipeModal';
+import DeleteTipeModal from '../components/ui/DeleteTipeModal';
+import { products,tipeHunian1 } from '../data/dummyData';
 
-const ProdukRumah = () => {
+const TipeHunian = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -14,8 +14,8 @@ const ProdukRumah = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProducts = tipeHunian1.filter(tipe =>
+    tipe.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
@@ -79,86 +79,22 @@ const ProdukRumah = () => {
               <thead className="bg-gray-50 sticky top-0 z-10">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Nama Produk
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Tipe Properti
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Alamat
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Kamar Tidur
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Kamar Mandi
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Luas Tanah(m2)
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Luas Bangunan(m2)
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Daya Listrik
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Total Visit
-                  </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    
+                    Nama
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {paginatedProducts.map((product) => (
                   <tr key={product.id}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <img
-                          src={product.image}
-                          alt={product.name}
-                          className="w-12 h-8 rounded object-cover mr-3"
-                        />
-                        <span className="text-sm font-medium text-gray-900">{product.name}</span>
-                      </div>
-                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       Rumah Siap Huni
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      Jl. Diponegoro No. 666
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      3
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      3
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      302
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      280
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      2200
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      Sudah Terjual
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      10.345
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button
                         onClick={() => openEditModal(product)}
                         className="text-emerald-600 hover:text-emerald-900 mr-4"
                       >
-                        <Pencil size={16} />
+                       <p>Edit Detail</p>
                       </button>
                       <button
                         onClick={() => openDeleteModal(product)}
@@ -237,20 +173,20 @@ const ProdukRumah = () => {
         </div>
       </div>
 
-      <AddProductModal
+      <AddTipeModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         onSave={handleAdd}
       />
 
-      <EditProductModal
+      <EditTipeModal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         onSave={handleEdit}
         product={selectedProduct}
       />
 
-      <DeleteProductModal
+      <DeleteTipeModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={handleDelete}
@@ -260,4 +196,4 @@ const ProdukRumah = () => {
   );
 };
 
-export default ProdukRumah;
+export default TipeHunian;

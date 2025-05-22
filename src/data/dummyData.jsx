@@ -100,3 +100,14 @@ export const currentUser = {
     { name: 'Portfolio Project', icon: 'FolderKanban' },
     { name: 'User', icon: 'Users' },
   ];
+
+  export const tipeHunian1 = [
+    {
+      id:1,
+      name:'Rumah Pesan Bangun'
+    },
+    {
+      id:2,
+      name:'Rumah Keluarga'
+    },
+  ]

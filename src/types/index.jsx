@@ -19,6 +19,7 @@ export const ProductPropType = PropTypes.shape({
   name: PropTypes.string.isRequired,
   status: PropTypes.oneOf(['Tersedia', 'Sudah Terjual']).isRequired,
   visits: PropTypes.number.isRequired,
+  tipe: PropTypes.string.isRequired
 });
 
 export const MonthPropType = PropTypes.oneOf([

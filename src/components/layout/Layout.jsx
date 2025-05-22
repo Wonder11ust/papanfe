@@ -8,6 +8,10 @@ const Layout = ({ children, sidebarOpen, setSidebarOpen, currentPage, setCurrent
     switch (currentPage) {
       case 'produk-rumah':
         return 'Produk Rumah';
+      case 'tipe-hunian':
+        return 'Tipe Hunian'
+      case 'jasa-layanan':
+        return 'Jasa Layanan'
       default:
         return 'Dashboard';
     }
