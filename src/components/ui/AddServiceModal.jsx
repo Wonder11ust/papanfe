@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { X } from 'lucide-react';
+import { Editor } from '@tinymce/tinymce-react';
 
 const AddServiceModal = ({ isOpen, onClose, onSave }) => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,10 @@ const AddServiceModal = ({ isOpen, onClose, onSave }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave(formData);
+  };
+
+  const handleEditorChange = (content) => {
+    setFormData({ ...formData, description: content });
   };
 
   const handleFileChange = (e) => {
@@ -58,12 +63,25 @@ const AddServiceModal = ({ isOpen, onClose, onSave }) => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Deskripsi
                 </label>
-                <textarea
+                <Editor
+                  apiKey="your-tinymce-api-key"
+                  init={{
+                    height: 300,
+                    menubar: true,
+                    plugins: [
+                      'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                      'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                      'insertdatetime', 'media', 'table', 'help', 'wordcount', 'emoticons'
+                    ],
+                    toolbar: 'undo redo | blocks fontfamily fontsize | ' +
+                      'bold italic underline strikethrough | alignleft aligncenter ' +
+                      'alignright alignjustify | bullist numlist outdent indent | ' +
+                      'removeformat | emoticons help',
+                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                    font_family_formats: 'Arial=arial; Courier New=courier new; Montserrat=montserrat; Roboto=roboto; Times New Roman=times new roman'
+                  }}
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  rows={4}
-                  placeholder="Masukkan deskripsi jasa"
+                  onEditorChange={handleEditorChange}
                 />
               </div>
 
