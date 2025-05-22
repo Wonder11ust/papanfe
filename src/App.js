@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Dashboard from './pages/Dashboard';
 import ProdukRumah from './pages/ProdukRumah';
+import JasaLayanan from './pages/JasaLayanan';
 import Layout from './components/layout/Layout';
 
 function App() {
@@ -11,6 +12,8 @@ function App() {
     switch (currentPage) {
       case 'produk-rumah':
         return <ProdukRumah />;
+      case 'jasa-layanan':
+        return <JasaLayanan />;
       default:
         return <Dashboard />;
     }
