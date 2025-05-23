@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { X } from 'lucide-react';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const AddServiceModal = ({ isOpen, onClose, onSave }) => {
   const [formData, setFormData] = useState({
@@ -58,12 +60,32 @@ const AddServiceModal = ({ isOpen, onClose, onSave }) => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Deskripsi
                 </label>
-                <textarea
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  rows={4}
-                  placeholder="Masukkan deskripsi jasa"
+                <CKEditor
+                  editor={ClassicEditor}
+                  data={formData.description}
+                  onChange={(event, editor) => {
+                    const data = editor.getData();
+                    setFormData({ ...formData, description: data });
+                  }}
+                  config={{
+                    toolbar: [
+                      'heading',
+                      '|',
+                      'bold',
+                      'italic',
+                      'link',
+                      'bulletedList',
+                      'numberedList',
+                      '|',
+                      'outdent',
+                      'indent',
+                      '|',
+                      'blockQuote',
+                      'insertTable',
+                      'undo',
+                      'redo'
+                    ]
+                  }}
                 />
               </div>
 
